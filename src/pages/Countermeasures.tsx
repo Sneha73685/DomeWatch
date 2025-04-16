@@ -1,243 +1,165 @@
 
-import { useState } from "react";
-import { Header } from "@/components/dashboard/Header";
-import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Shield, Radio, Zap, Upload, Lock } from "lucide-react";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { 
+  ShieldAlert, 
+  ShieldOff, 
+  Radar, 
+  AlertTriangle, 
+  PlayCircle, 
+  PauseCircle 
+} from "lucide-react";
 import { toast } from "sonner";
+import { Sidebar } from "@/components/dashboard/Sidebar";
+import { Header } from "@/components/dashboard/Header";
 
-export default function Countermeasures() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [jammingActive, setJammingActive] = useState(false);
-  const [gpsActive, setGpsActive] = useState(false);
-  const [rfActive, setRfActive] = useState(false);
-  
-  const toggleJamming = () => {
-    setJammingActive(!jammingActive);
-    toast(jammingActive ? "RF Jamming deactivated" : "RF Jamming activated", {
-      description: jammingActive ? "Countermeasure disabled" : "Countermeasure enabled for all zones",
+const countermeasureTypes = [
+  {
+    id: 1,
+    name: "Drone Jamming",
+    description: "Electromagnetic interference to disable unauthorized drones",
+    status: "active",
+    icon: ShieldOff
+  },
+  {
+    id: 2,
+    name: "Geofencing",
+    description: "Create virtual boundaries to prevent drone entry",
+    status: "inactive",
+    icon: Radar
+  },
+  {
+    id: 3,
+    name: "Aerial Interception",
+    description: "Deploy counter-drone systems to neutralize threats",
+    status: "standby",
+    icon: AlertTriangle
+  }
+];
+
+const Countermeasures: React.FC = () => {
+  const [activeMeasures, setActiveMeasures] = useState(
+    countermeasureTypes.map(measure => ({
+      ...measure,
+      isActive: measure.status === "active"
+    }))
+  );
+
+  const toggleCountermeasure = (id: number) => {
+    const updatedMeasures = activeMeasures.map(measure => 
+      measure.id === id 
+        ? { ...measure, isActive: !measure.isActive } 
+        : measure
+    );
+    
+    setActiveMeasures(updatedMeasures);
+    
+    const toggledMeasure = updatedMeasures.find(m => m.id === id);
+    toast.info(`${toggledMeasure?.name} ${toggledMeasure?.isActive ? 'Activated' : 'Deactivated'}`, {
+      description: `Countermeasure set to ${toggledMeasure?.isActive ? 'active' : 'inactive'} state`
     });
   };
-  
-  const toggleGps = () => {
-    setGpsActive(!gpsActive);
-    toast(gpsActive ? "GPS Spoofing deactivated" : "GPS Spoofing activated", {
-      description: gpsActive ? "Countermeasure disabled" : "Countermeasure enabled for all zones",
+
+  const activateAllCountermeasures = () => {
+    const allActivated = activeMeasures.map(measure => ({
+      ...measure, 
+      isActive: true
+    }));
+    
+    setActiveMeasures(allActivated);
+    
+    toast.success("All Countermeasures Activated", {
+      description: "Comprehensive drone defense system engaged"
     });
   };
-  
-  const toggleRf = () => {
-    setRfActive(!rfActive);
-    toast(rfActive ? "RF Takeover deactivated" : "RF Takeover activated", {
-      description: rfActive ? "Countermeasure disabled" : "Countermeasure enabled for all zones",
+
+  const deactivateAllCountermeasures = () => {
+    const allDeactivated = activeMeasures.map(measure => ({
+      ...measure, 
+      isActive: false
+    }));
+    
+    setActiveMeasures(allDeactivated);
+    
+    toast.warning("All Countermeasures Deactivated", {
+      description: "Drone defense system disengaged"
     });
   };
-  
-  const handleConfigureParameters = () => {
-    toast.info("Configure RF Jamming Parameters", {
-      description: "Advanced settings panel for RF jamming parameters opened"
-    });
-  };
-  
-  const handleSetLandingZone = () => {
-    toast.info("Landing Zone Configuration", {
-      description: "Opening map interface to set GPS spoofing landing coordinates"
-    });
-  };
-  
-  const handleManualOverride = () => {
-    toast.info("Manual Override Mode", {
-      description: "Switching to direct control interface for manual drone piloting"
-    });
-  };
-  
+
   return (
-    <div className="flex min-h-screen bg-dome-dark">
-      {/* Sidebar for larger screens */}
-      <div className="hidden lg:block">
-        <Sidebar activePage="countermeasures" />
-      </div>
-      
-      {/* Mobile sidebar */}
-      <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-64 border-dome-purple/10 bg-dome-darker">
-          <Sidebar activePage="countermeasures" />
-        </SheetContent>
-      </Sheet>
-      
-      <div className="flex flex-col flex-1">
-        <Header onMenuClick={() => setIsSidebarOpen(true)} />
-        
-        <main className="flex-1 p-4 md:p-6">
-          <div className="grid gap-4 md:gap-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-white">Countermeasures</h1>
-              <Badge variant="outline" className="bg-dome-red/10 text-dome-red border-dome-red/30">
-                Restricted Access
-              </Badge>
+    <div className="flex h-screen">
+      <Sidebar activePage="countermeasures" />
+      <div className="flex-1 flex flex-col">
+        <Header />
+        <main className="flex-1 p-6 bg-dome-dark overflow-y-auto">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <ShieldAlert className="text-dome-purple" /> 
+              Countermeasures
+            </h1>
+            <div className="space-x-2">
+              <Button 
+                variant="default" 
+                onClick={activateAllCountermeasures}
+                className="bg-dome-green hover:bg-dome-green/80"
+              >
+                <PlayCircle className="mr-2" /> Activate All
+              </Button>
+              <Button 
+                variant="destructive" 
+                onClick={deactivateAllCountermeasures}
+                className="bg-dome-red hover:bg-dome-red/80"
+              >
+                <PauseCircle className="mr-2" /> Deactivate All
+              </Button>
             </div>
-            
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <Radio className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">RF Jamming</CardTitle>
-                  </div>
-                  <CardDescription>Disrupt drone control signals</CardDescription>
+          </div>
+          
+          <Separator className="mb-6 bg-dome-purple/20" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {activeMeasures.map((measure) => (
+              <Card 
+                key={measure.id} 
+                className={`
+                  bg-dome-darker border-dome-purple/20 
+                  ${measure.isActive ? 'border-dome-green/50' : 'border-dome-red/30'}
+                `}
+              >
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium flex items-center gap-2">
+                    <measure.icon 
+                      className={`
+                        h-5 w-5 
+                        ${measure.isActive ? 'text-dome-green' : 'text-dome-red'}
+                      `} 
+                    />
+                    {measure.name}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex justify-between items-center py-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Status</p>
-                      <p className="text-sm font-medium text-white mt-1">
-                        {jammingActive ? "Active" : "Standby"}
-                      </p>
-                    </div>
-                    <Switch 
-                      checked={jammingActive} 
-                      onCheckedChange={toggleJamming}
-                    />
+                  <div className="text-xs text-muted-foreground mb-2">
+                    {measure.description}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-4">
-                    <p>Coverage: 1.5km radius</p>
-                    <p>Frequencies: 2.4GHz, 5.8GHz</p>
-                  </div>
+                  <Button 
+                    onClick={() => toggleCountermeasure(measure.id)}
+                    variant={measure.isActive ? "destructive" : "default"}
+                    size="sm"
+                    className="w-full"
+                  >
+                    {measure.isActive ? 'Deactivate' : 'Activate'}
+                  </Button>
                 </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
-                    onClick={handleConfigureParameters}
-                  >
-                    Configure Parameters
-                  </Button>
-                </CardFooter>
               </Card>
-              
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <Upload className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">GPS Spoofing</CardTitle>
-                  </div>
-                  <CardDescription>Redirect drone flight path</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center py-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Status</p>
-                      <p className="text-sm font-medium text-white mt-1">
-                        {gpsActive ? "Active" : "Standby"}
-                      </p>
-                    </div>
-                    <Switch 
-                      checked={gpsActive} 
-                      onCheckedChange={toggleGps}
-                    />
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-4">
-                    <p>Target: Safe landing zone</p>
-                    <p>Compatible: DJI, Yuneec, Parrot</p>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
-                    onClick={handleSetLandingZone}
-                  >
-                    Set Landing Zone
-                  </Button>
-                </CardFooter>
-              </Card>
-              
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <Zap className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">RF Takeover</CardTitle>
-                  </div>
-                  <CardDescription>Assume drone control</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between items-center py-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Status</p>
-                      <p className="text-sm font-medium text-white mt-1">
-                        {rfActive ? "Active" : "Standby"}
-                      </p>
-                    </div>
-                    <Switch 
-                      checked={rfActive}
-                      onCheckedChange={toggleRf}
-                    />
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-4">
-                    <p>Protocol: DroneBridge, MAVLink</p>
-                    <p>Success rate: 78% of known models</p>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
-                    onClick={handleManualOverride}
-                  >
-                    Manual Override Mode
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-            
-            <Card className="bg-dome-darker border-dome-purple/10 mt-4">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <div className="p-2 rounded-full bg-dome-purple/10">
-                    <Shield className="h-5 w-5 text-dome-purple-light" />
-                  </div>
-                  <CardTitle className="text-white">Emergency Protocols</CardTitle>
-                </div>
-                <CardDescription>Last resort countermeasures</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <Button 
-                    className="bg-dome-red hover:bg-dome-red/90 text-white"
-                    onClick={() => toast.warning("Level 1 Protocol Activated", {
-                      description: "All countermeasures engaged at maximum power. Duration: 30 seconds",
-                    })}
-                  >
-                    <Lock className="mr-2 h-4 w-4" />
-                    Level 1 Protocol
-                  </Button>
-                  <Button 
-                    variant="outline"
-                    className="border-dome-red text-dome-red hover:bg-dome-red/10"
-                    onClick={() => toast.error("This action requires Director authorization", {
-                      description: "Please contact security command for emergency override",
-                    })}
-                  >
-                    <Lock className="mr-2 h-4 w-4" />
-                    Level 2 Protocol
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <div className="text-center text-xs text-muted-foreground mt-4">
-              <p>DomeWatch v2.4.0 • All countermeasure activations are logged and reported</p>
-            </div>
+            ))}
           </div>
         </main>
       </div>
     </div>
   );
-}
+};
+
+export default Countermeasures;
+
