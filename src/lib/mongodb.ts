@@ -1,4 +1,3 @@
-
 import { MongoClient, Db, Collection } from 'mongodb';
 
 // Database models/schemas
@@ -62,8 +61,8 @@ const mockCollections: Record<string, any[]> = {
   detections: []
 };
 
-// Mock Collection class
-class MockCollection<T> {
+// Mock Collection class with more flexible type handling
+class MockCollection<T extends object> {
   private data: T[];
   private collectionName: string;
 
@@ -72,11 +71,14 @@ class MockCollection<T> {
     this.data = initialData;
   }
 
-  async find(query = {}): Promise<{ toArray(): Promise<T[]> }> {
-    // For simplicity, we're not implementing actual query filtering
-    // In a real implementation, you would filter based on the query
+  async find(query: Partial<T> = {}): Promise<{ toArray(): Promise<T[]> }> {
+    // Simplified query filtering
+    const filteredData = this.data.filter(item => 
+      Object.entries(query).every(([key, value]) => item[key as keyof T] === value)
+    );
+
     return {
-      toArray: async () => this.data
+      toArray: async () => filteredData
     };
   }
 
@@ -92,15 +94,10 @@ class MockCollection<T> {
     return { insertedId: 'mock-id' };
   }
 
-  async updateOne(filter: any, update: any): Promise<{ modifiedCount: number }> {
-    // Simple implementation - in a real scenario, we would match the filter
-    // and apply the updates according to MongoDB's update operators
-    const index = this.data.findIndex(item => {
-      if ('id' in item && 'id' in filter) {
-        return item.id === filter.id;
-      }
-      return false;
-    });
+  async updateOne(filter: Partial<T>, update: { $set: Partial<T> }): Promise<{ modifiedCount: number }> {
+    const index = this.data.findIndex(item => 
+      Object.entries(filter).every(([key, value]) => item[key as keyof T] === value)
+    );
 
     if (index !== -1 && update.$set) {
       this.data[index] = { ...this.data[index], ...update.$set };
