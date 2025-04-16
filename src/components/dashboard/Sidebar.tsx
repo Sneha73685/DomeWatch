@@ -60,6 +60,27 @@ export function Sidebar({ className, activePage = "dashboard" }: SidebarProps) {
     setTimeout(() => navigate("/login"), 1500);
   };
   
+  const handleAnalytics = () => {
+    navigate("/analytics");
+    toast.info("Analytics Dashboard", {
+      description: "Viewing historical data and trends"
+    });
+  };
+  
+  const handleOperators = () => {
+    navigate("/operators");
+    toast.info("Operator Management", {
+      description: "Viewing team roster and permissions"
+    });
+  };
+  
+  const handleSettings = () => {
+    navigate("/settings");
+    toast.info("System Settings", {
+      description: "Configure system parameters and preferences"
+    });
+  };
+  
   return (
     <aside
       className={cn(
@@ -103,31 +124,19 @@ export function Sidebar({ className, activePage = "dashboard" }: SidebarProps) {
           icon={<Database className="h-5 w-5" />} 
           label="Analytics" 
           active={activePage === "analytics"}
-          onClick={() => {
-            toast.info("Access restricted", {
-              description: "Analytics module requires additional permissions"
-            });
-          }}
+          onClick={handleAnalytics}
         />
         <SidebarItem 
           icon={<Users className="h-5 w-5" />} 
           label="Operators" 
           active={activePage === "operators"}
-          onClick={() => {
-            toast.info("Access restricted", {
-              description: "Operators module requires additional permissions"
-            });
-          }}
+          onClick={handleOperators}
         />
         <SidebarItem 
           icon={<Settings className="h-5 w-5" />} 
           label="Settings" 
           active={activePage === "settings"}
-          onClick={() => {
-            toast.info("Access restricted", {
-              description: "Settings module requires additional permissions"
-            });
-          }}
+          onClick={handleSettings}
         />
       </nav>
       

@@ -7,9 +7,28 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 
 export default function Detection() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  const handleCalibrateSystem = (system: string) => {
+    toast.success(`${system} calibration initiated`, {
+      description: "System optimization in progress. This may take a few minutes."
+    });
+  };
+  
+  const handleScanFrequencies = () => {
+    toast.success("Frequency scanning initiated", {
+      description: "Scanning for new signals across all frequency bands"
+    });
+  };
+  
+  const handleUpdateAI = () => {
+    toast.success("AI model update initiated", {
+      description: "Downloading and installing latest threat detection models"
+    });
+  };
   
   return (
     <div className="flex min-h-screen bg-dome-dark">
@@ -58,7 +77,10 @@ export default function Detection() {
                         <span className="text-white">1.2 km</span>
                       </div>
                     </div>
-                    <Button className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white">
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => handleCalibrateSystem("Visual Detection")}
+                    >
                       Calibrate Cameras
                     </Button>
                   </div>
@@ -90,7 +112,10 @@ export default function Detection() {
                         <span className="text-white">7 channels</span>
                       </div>
                     </div>
-                    <Button className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white">
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={handleScanFrequencies}
+                    >
                       Scan New Frequencies
                     </Button>
                   </div>
@@ -122,7 +147,10 @@ export default function Detection() {
                         <span className="text-white">97.8%</span>
                       </div>
                     </div>
-                    <Button className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white">
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={handleUpdateAI}
+                    >
                       Update AI Model
                     </Button>
                   </div>

@@ -37,6 +37,24 @@ export default function Countermeasures() {
     });
   };
   
+  const handleConfigureParameters = () => {
+    toast.info("Configure RF Jamming Parameters", {
+      description: "Advanced settings panel for RF jamming parameters opened"
+    });
+  };
+  
+  const handleSetLandingZone = () => {
+    toast.info("Landing Zone Configuration", {
+      description: "Opening map interface to set GPS spoofing landing coordinates"
+    });
+  };
+  
+  const handleManualOverride = () => {
+    toast.info("Manual Override Mode", {
+      description: "Switching to direct control interface for manual drone piloting"
+    });
+  };
+  
   return (
     <div className="flex min-h-screen bg-dome-dark">
       {/* Sidebar for larger screens */}
@@ -95,6 +113,7 @@ export default function Countermeasures() {
                 <CardFooter>
                   <Button 
                     className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
+                    onClick={handleConfigureParameters}
                   >
                     Configure Parameters
                   </Button>
@@ -132,6 +151,7 @@ export default function Countermeasures() {
                 <CardFooter>
                   <Button 
                     className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
+                    onClick={handleSetLandingZone}
                   >
                     Set Landing Zone
                   </Button>
@@ -169,6 +189,7 @@ export default function Countermeasures() {
                 <CardFooter>
                   <Button 
                     className="w-full bg-dome-darker text-dome-purple-light border border-dome-purple/30 hover:bg-dome-purple/10"
+                    onClick={handleManualOverride}
                   >
                     Manual Override Mode
                   </Button>

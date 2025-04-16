@@ -23,6 +23,29 @@ interface HeaderProps {
 export function Header({ className, onMenuClick }: HeaderProps) {
   const navigate = useNavigate();
   
+  const handleProfileClick = () => {
+    toast.info("Profile Settings", {
+      description: "View and edit your operator profile"
+    });
+  };
+  
+  const handleSettingsClick = () => {
+    navigate("/settings");
+  };
+  
+  const handleHelpClick = () => {
+    toast.info("Help Documentation", {
+      description: "Accessing system documentation and user guides"
+    });
+  };
+  
+  const handleLogout = () => {
+    toast.success("Logged out successfully", {
+      description: "Redirecting to login page..."
+    });
+    setTimeout(() => navigate("/login"), 1500);
+  };
+  
   return (
     <header className={cn("border-b border-dome-purple/10 bg-dome-darker p-4", className)}>
       <div className="flex items-center justify-between">
@@ -95,30 +118,17 @@ export function Header({ className, onMenuClick }: HeaderProps) {
             <DropdownMenuContent align="end" className="bg-dome-darker border-dome-purple/20">
               <DropdownMenuLabel>Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                onClick={() => toast.info("Feature unavailable", { description: "Profile settings not available in demo mode" })}
-              >
+              <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => toast.info("Feature unavailable", { description: "Settings not available in demo mode" })}
-              >
+              <DropdownMenuItem onClick={handleSettingsClick}>
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => toast.info("Feature unavailable", { description: "Help documentation not available in demo mode" })}
-              >
+              <DropdownMenuItem onClick={handleHelpClick}>
                 Help
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => {
-                  toast.success("Logged out successfully", {
-                    description: "Redirecting to login page..."
-                  });
-                  setTimeout(() => navigate("/login"), 1500);
-                }}
-              >
+              <DropdownMenuItem onClick={handleLogout}>
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>
