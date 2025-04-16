@@ -1,12 +1,11 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Db, MongoClient } from 'mongodb';
 import { connectToDatabase } from '@/lib/mongodb';
 import { toast } from "sonner";
 
 interface MongoDBContextType {
-  client: MongoClient | null;
-  db: Db | null;
+  client: any;
+  db: any;
   isConnected: boolean;
   isConnecting: boolean;
   error: Error | null;
@@ -25,8 +24,8 @@ const MongoDBContext = createContext<MongoDBContextType>({
 export const useMongoDb = () => useContext(MongoDBContext);
 
 export const MongoDBProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [client, setClient] = useState<MongoClient | null>(null);
-  const [db, setDb] = useState<Db | null>(null);
+  const [client, setClient] = useState<any>(null);
+  const [db, setDb] = useState<any>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -43,7 +42,7 @@ export const MongoDBProvider: React.FC<{ children: ReactNode }> = ({ children })
       setDb(connectedDb);
       setIsConnected(true);
       toast.success("Database Connected", {
-        description: "Successfully connected to MongoDB"
+        description: "Successfully connected to MongoDB (mock for browser)"
       });
     } catch (err) {
       const error = err as Error;
