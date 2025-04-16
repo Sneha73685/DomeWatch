@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface HeaderProps {
   className?: string;
@@ -19,6 +21,8 @@ interface HeaderProps {
 }
 
 export function Header({ className, onMenuClick }: HeaderProps) {
+  const navigate = useNavigate();
+  
   return (
     <header className={cn("border-b border-dome-purple/10 bg-dome-darker p-4", className)}>
       <div className="flex items-center justify-between">
@@ -31,7 +35,7 @@ export function Header({ className, onMenuClick }: HeaderProps) {
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
             <ShieldAlert className="h-6 w-6 text-dome-purple" />
             <h1 className="text-xl font-bold text-white">DomeWatch</h1>
             <Badge variant="outline" className="ml-2 bg-dome-purple/10 text-dome-purple-light">
@@ -56,16 +60,21 @@ export function Header({ className, onMenuClick }: HeaderProps) {
             <DropdownMenuContent align="end" className="bg-dome-darker border-dome-purple/20">
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex flex-col items-start">
+              <DropdownMenuItem className="flex flex-col items-start cursor-pointer" onClick={() => navigate("/alerts")}>
                 <span className="text-dome-red font-medium">Critical Alert</span>
                 <span className="text-xs text-muted-foreground">Unauthorized drone in Zone A</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex flex-col items-start">
+              <DropdownMenuItem className="flex flex-col items-start cursor-pointer">
                 <span>System Update</span>
                 <span className="text-xs text-muted-foreground">New threat detection model ready</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-center text-xs text-dome-purple-light">View all</DropdownMenuItem>
+              <DropdownMenuItem 
+                className="text-center text-xs text-dome-purple-light cursor-pointer"
+                onClick={() => navigate("/alerts")}
+              >
+                View all
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           
@@ -86,11 +95,32 @@ export function Header({ className, onMenuClick }: HeaderProps) {
             <DropdownMenuContent align="end" className="bg-dome-darker border-dome-purple/20">
               <DropdownMenuLabel>Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Help</DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => toast.info("Feature unavailable", { description: "Profile settings not available in demo mode" })}
+              >
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => toast.info("Feature unavailable", { description: "Settings not available in demo mode" })}
+              >
+                Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => toast.info("Feature unavailable", { description: "Help documentation not available in demo mode" })}
+              >
+                Help
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Log out</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  toast.success("Logged out successfully", {
+                    description: "Redirecting to login page..."
+                  });
+                  setTimeout(() => navigate("/login"), 1500);
+                }}
+              >
+                Log out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
