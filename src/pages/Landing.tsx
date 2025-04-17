@@ -1,8 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { Shield, Radio, ShieldAlert, Lock, Zap, Target, Bell, Activity, Users, ChevronRight } from "lucide-react";
+import { Radio, Lock, Zap, Target, Bell, Activity, Users, ChevronRight } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-r from-dome-purple/20 to-transparent" />
         <div className="container mx-auto px-4 py-20">
           <div className="flex flex-col items-center text-center">
-            <Shield className="h-20 w-20 text-dome-purple mb-6" />
+            <Logo size="lg" className="mb-6" />
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               DomeWatch
             </h1>
@@ -113,7 +113,8 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              <ShieldAlert className="h-6 w-6 text-dome-purple" />
+              {/* <ShieldAlert className="h-6 w-6 text-dome-purple" /> */}
+              <Logo size="sm" />
               <span className="text-white font-bold">DomeWatch</span>
             </div>
             <p className="text-dome-purple-light text-sm">

@@ -52,19 +52,19 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-                dome: {
-                    dark: '#1A1F2C',
-                    darker: '#221F26',
-                    purple: {
-                        light: '#9b87f5',
-                        DEFAULT: '#8B5CF6',
-                        dark: '#7E69AB'
-                    },
-                    red: '#ea384c',
-                    green: '#10b981',
-                    yellow: '#f59e0b',
-                    blue: '#0EA5E9'
-                },
+				dome: {
+					dark: '#0F0F0F',
+					darker: '#000000',
+					purple: {
+						light: '#FFFFFF',
+						DEFAULT: '#000000',
+						dark: '#1A1A1A'
+					},
+					red: '#ea384c',
+					green: '#10b981',
+					yellow: '#f59e0b',
+					blue: '#0EA5E9'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

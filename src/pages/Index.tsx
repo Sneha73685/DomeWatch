@@ -1,7 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Shield, Radio, ShieldAlert, Lock } from "lucide-react";
+import { Radio, Lock } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -12,8 +12,7 @@ export default function Index() {
       <header className="w-full border-b border-dome-purple/10 bg-dome-darker p-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <ShieldAlert className="h-6 w-6 text-dome-purple" />
-            <span className="text-xl font-bold text-white">DomeWatch</span>
+            <Logo size="sm" />
           </div>
           <div className="flex items-center space-x-4">
             <Button 
@@ -32,7 +31,7 @@ export default function Index() {
         <div className="relative mb-8">
           <div className="absolute -inset-0.5 bg-dome-purple/20 rounded-lg blur-xl"></div>
           <div className="relative bg-dome-darker p-1 rounded-lg">
-            <Shield className="h-24 w-24 text-dome-purple" />
+            <Logo size="lg" />
           </div>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-6">
