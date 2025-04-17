@@ -36,7 +36,7 @@ export default function Index() {
           </div>
         </div>
         <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-6">
-          DomeWatch <span className="text-dome-purple">Defense System</span>
+          DomeWatch
         </h1>
         <p className="text-xl text-dome-purple-light text-center max-w-2xl mb-10">
           Advanced AI-Powered Anti-Drone Technology for Secure Perimeter Protection
