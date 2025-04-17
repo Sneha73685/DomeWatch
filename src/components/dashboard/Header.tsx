@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { BellRing, ChevronDown, Menu, ShieldAlert } from "lucide-react";
+import { BellRing, ChevronDown, Menu, ShieldAlert, Radio, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -18,14 +18,15 @@ import { toast } from "sonner";
 interface HeaderProps {
   className?: string;
   onMenuClick?: () => void;
+  userRole?: string;
 }
 
-export function Header({ className, onMenuClick }: HeaderProps) {
+export function Header({ className, onMenuClick, userRole = "operator" }: HeaderProps) {
   const navigate = useNavigate();
   
   const handleProfileClick = () => {
     toast.info("Profile Settings", {
-      description: "View and edit your operator profile"
+      description: "View and edit your profile"
     });
   };
   
@@ -41,9 +42,10 @@ export function Header({ className, onMenuClick }: HeaderProps) {
   
   const handleLogout = () => {
     toast.success("Logged out successfully", {
-      description: "Redirecting to login page..."
+      description: "Redirecting to home page..."
     });
-    setTimeout(() => navigate("/login"), 1500);
+    localStorage.removeItem("userRole");
+    setTimeout(() => navigate("/"), 1500);
   };
   
   return (
@@ -59,10 +61,14 @@ export function Header({ className, onMenuClick }: HeaderProps) {
             <Menu className="h-5 w-5" />
           </Button>
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate("/dashboard")}>
-            <ShieldAlert className="h-6 w-6 text-dome-purple" />
+            {userRole === "operator" ? (
+              <ShieldAlert className="h-6 w-6 text-dome-purple" />
+            ) : (
+              <Radio className="h-6 w-6 text-dome-purple" />
+            )}
             <h1 className="text-xl font-bold text-white">DomeWatch</h1>
             <Badge variant="outline" className="ml-2 bg-dome-purple/10 text-dome-purple-light">
-              Command Center
+              {userRole === "operator" ? "Command Center" : "Monitoring System"}
             </Badge>
           </div>
         </div>
@@ -106,11 +112,17 @@ export function Header({ className, onMenuClick }: HeaderProps) {
               <Button variant="ghost" className="flex items-center space-x-2 px-2">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/placeholder.svg" />
-                  <AvatarFallback className="bg-dome-purple text-white">OP</AvatarFallback>
+                  <AvatarFallback className="bg-dome-purple text-white">
+                    {userRole === "operator" ? "OP" : "AP"}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start text-left">
-                  <span className="text-sm font-medium">Operator</span>
-                  <span className="text-xs text-muted-foreground">Security Level: Alpha</span>
+                  <span className="text-sm font-medium">
+                    {userRole === "operator" ? "Operator" : "Personnel"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {userRole === "operator" ? "Security Level: Alpha" : "Access Level: Beta"}
+                  </span>
                 </div>
                 <ChevronDown className="h-4 w-4 text-muted-foreground" />
               </Button>
@@ -121,9 +133,11 @@ export function Header({ className, onMenuClick }: HeaderProps) {
               <DropdownMenuItem onClick={handleProfileClick}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSettingsClick}>
-                Settings
-              </DropdownMenuItem>
+              {userRole === "operator" && (
+                <DropdownMenuItem onClick={handleSettingsClick}>
+                  Settings
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem onClick={handleHelpClick}>
                 Help
               </DropdownMenuItem>

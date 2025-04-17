@@ -35,7 +35,8 @@ const App = () => (
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/operators" element={<Operators />} />
             <Route path="/settings" element={<Settings />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/logs" element={<NotFound />} />
+            <Route path="/reports" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

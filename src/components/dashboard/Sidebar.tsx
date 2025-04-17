@@ -9,7 +9,10 @@ import {
   AlertTriangle, 
   Database, 
   Users, 
-  LogOut
+  LogOut,
+  Eye,
+  Radio,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomeWatchBadge } from "./DomeWatchBadge";
@@ -19,6 +22,7 @@ import { toast } from "sonner";
 interface SidebarProps {
   className?: string;
   activePage?: string;
+  userRole?: string;
 }
 
 interface SidebarItemProps {
@@ -27,17 +31,20 @@ interface SidebarItemProps {
   active?: boolean;
   alert?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-function SidebarItem({ icon, label, active, alert, onClick }: SidebarItemProps) {
+function SidebarItem({ icon, label, active, alert, onClick, disabled }: SidebarItemProps) {
   return (
     <Button
       variant="ghost"
       className={cn(
         "w-full justify-start",
-        active ? "bg-dome-purple/10 text-dome-purple-light" : "text-muted-foreground hover:bg-dome-purple/5 hover:text-dome-purple-light"
+        active ? "bg-dome-purple/10 text-dome-purple-light" : "text-muted-foreground hover:bg-dome-purple/5 hover:text-dome-purple-light",
+        disabled && "opacity-50 cursor-not-allowed hover:bg-transparent hover:text-muted-foreground"
       )}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
     >
       <div className="relative">
         {icon}
@@ -50,36 +57,24 @@ function SidebarItem({ icon, label, active, alert, onClick }: SidebarItemProps) 
   );
 }
 
-export function Sidebar({ className, activePage = "dashboard" }: SidebarProps) {
+export function Sidebar({ className, activePage = "dashboard", userRole = "operator" }: SidebarProps) {
   const navigate = useNavigate();
   
   const handleLogout = () => {
     toast.success("Logged out successfully", {
-      description: "Redirecting to login page..."
+      description: "Redirecting to home page..."
     });
-    setTimeout(() => navigate("/login"), 1500);
+    localStorage.removeItem("userRole");
+    setTimeout(() => navigate("/"), 1500);
   };
   
-  const handleAnalytics = () => {
-    navigate("/analytics");
-    toast.info("Analytics Dashboard", {
-      description: "Viewing historical data and trends"
-    });
-  };
-  
-  const handleOperators = () => {
-    navigate("/operators");
-    toast.info("Operator Management", {
-      description: "Viewing team roster and permissions"
+  const handleDisabledFeature = () => {
+    toast.info("Access Restricted", {
+      description: "This feature requires operator privileges"
     });
   };
   
-  const handleSettings = () => {
-    navigate("/settings");
-    toast.info("System Settings", {
-      description: "Configure system parameters and preferences"
-    });
-  };
+  const isPersonnel = userRole === "personnel";
   
   return (
     <aside
@@ -111,8 +106,9 @@ export function Sidebar({ className, activePage = "dashboard" }: SidebarProps) {
           icon={<Shield className="h-5 w-5" />} 
           label="Countermeasures" 
           active={activePage === "countermeasures"}
-          alert={true}
+          alert={!isPersonnel}
           onClick={() => navigate("/countermeasures")}
+          disabled={isPersonnel}
         />
         <SidebarItem 
           icon={<AlertTriangle className="h-5 w-5" />} 
@@ -124,20 +120,40 @@ export function Sidebar({ className, activePage = "dashboard" }: SidebarProps) {
           icon={<Database className="h-5 w-5" />} 
           label="Analytics" 
           active={activePage === "analytics"}
-          onClick={handleAnalytics}
+          onClick={() => navigate("/analytics")}
         />
-        <SidebarItem 
-          icon={<Users className="h-5 w-5" />} 
-          label="Operators" 
-          active={activePage === "operators"}
-          onClick={handleOperators}
-        />
-        <SidebarItem 
-          icon={<Settings className="h-5 w-5" />} 
-          label="Settings" 
-          active={activePage === "settings"}
-          onClick={handleSettings}
-        />
+        
+        {isPersonnel ? (
+          <>
+            <SidebarItem 
+              icon={<Eye className="h-5 w-5" />} 
+              label="Monitoring Logs" 
+              active={activePage === "logs"}
+              onClick={() => navigate("/logs")}
+            />
+            <SidebarItem 
+              icon={<FileText className="h-5 w-5" />} 
+              label="Reports" 
+              active={activePage === "reports"}
+              onClick={() => navigate("/reports")}
+            />
+          </>
+        ) : (
+          <>
+            <SidebarItem 
+              icon={<Users className="h-5 w-5" />} 
+              label="Operators" 
+              active={activePage === "operators"}
+              onClick={() => navigate("/operators")}
+            />
+            <SidebarItem 
+              icon={<Settings className="h-5 w-5" />} 
+              label="Settings" 
+              active={activePage === "settings"}
+              onClick={() => navigate("/settings")}
+            />
+          </>
+        )}
       </nav>
       
       <div className="mt-auto">
