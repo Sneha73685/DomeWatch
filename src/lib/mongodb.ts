@@ -1,3 +1,4 @@
+
 import { MongoClient, Db, Collection } from 'mongodb';
 
 // Database models/schemas
@@ -62,7 +63,7 @@ const mockCollections: Record<string, any[]> = {
 };
 
 // Mock Collection class with more flexible type handling
-class MockCollection<T extends object> {
+class MockCollection<T extends Record<string, any>> {
   private data: T[];
   private collectionName: string;
 
@@ -129,7 +130,7 @@ class MockCollection<T extends object> {
 
 // Mock DB class
 class MockDb {
-  collection<T>(name: string): MockCollection<T> {
+  collection<T extends Record<string, any>>(name: string): MockCollection<T> {
     return new MockCollection<T>(name, mockCollections[name] || []);
   }
 }
@@ -173,7 +174,7 @@ export async function connectToDatabase(): Promise<{ client: any, db: any }> {
 }
 
 // Helper to get collections (using the mock implementation)
-export function getCollection<T>(collectionName: string): Promise<any> {
+export function getCollection<T extends Record<string, any>>(collectionName: string): Promise<any> {
   console.log(`Getting mock collection: ${collectionName}`);
   return Promise.resolve(mockDb.collection<T>(collectionName));
 }
