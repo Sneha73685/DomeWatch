@@ -1,1 +1,0 @@
-make a different ui for operator and normal user, also make homepage dedicated to what dome watch is and hen the login page which should be one for operator and  one for authorised personel login
