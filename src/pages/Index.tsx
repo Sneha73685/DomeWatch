@@ -39,7 +39,7 @@ export default function Index() {
           DomeWatch
         </h1>
         <p className="text-xl text-dome-purple-light text-center max-w-2xl mb-10">
-          Advanced AI-Powered Anti-Drone Technology for Secure Perimeter Protection
+          Securing the sky, one drone at a time
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
           <Button 
@@ -88,7 +88,7 @@ export default function Index() {
       <footer className="border-t border-dome-purple/10 bg-dome-dark py-8 mt-auto">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-muted-foreground">
-            DomeWatch Security Systems &copy; 2025 • Advanced Drone Defense Technology
+            DomeWatch &copy; 2025 • Advanced Drone Defense Technology
           </p>
         </div>
       </footer>

@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ export default function Landing() {
               DomeWatch
             </h1>
             <p className="text-xl md:text-2xl text-dome-purple-light max-w-2xl mb-10">
-              Advanced AI-Powered Anti-Drone Technology for Secure Perimeter Protection
+              Securing the sky, one drone at a time
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
@@ -92,7 +93,7 @@ export default function Landing() {
             Ready to Secure Your Airspace?
           </h2>
           <p className="text-dome-purple-light mb-8 max-w-2xl mx-auto">
-            Join the leading organizations already protected by DomeWatch Defense System
+            Join the leading organizations already protected by DomeWatch
           </p>
           <div className="flex justify-center gap-4">
             <Button 
