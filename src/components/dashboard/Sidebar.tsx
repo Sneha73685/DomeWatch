@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { 
@@ -12,7 +11,8 @@ import {
   LogOut,
   Eye,
   Radio,
-  FileText
+  FileText,
+  Webcam
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomeWatchBadge } from "./DomeWatchBadge";
@@ -95,6 +95,12 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
           label="Dashboard" 
           active={activePage === "dashboard"}
           onClick={() => navigate("/dashboard")}
+        />
+        <SidebarItem 
+          icon={<Webcam className="h-5 w-5" />} 
+          label="Camera Detection" 
+          active={activePage === "camera-detection"}
+          onClick={() => navigate("/camera-detection")}
         />
         <SidebarItem 
           icon={<Radar className="h-5 w-5" />} 
