@@ -1,6 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Radio, Lock } from "lucide-react";
+import { Radio, Lock, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 export default function Index() {
@@ -68,16 +69,19 @@ export default function Index() {
               title="Advanced Detection" 
               description="Cutting-edge radar and RF analysis to identify unauthorized drones within protected airspace"
               icon={<Radio className="h-10 w-10 text-dome-purple" />}
+              onClick={() => navigate("/detection")}
             />
             <FeatureCard 
               title="Countermeasure Systems" 
               description="Intelligent threat response with multiple neutralization options for different threat levels"
-              icon={<Shield className="h-10 w-10 text-dome-purple" />}
+              icon={<Lock className="h-10 w-10 text-dome-purple" />}
+              onClick={() => navigate("/countermeasures")}
             />
             <FeatureCard 
               title="Command & Control" 
               description="Real-time monitoring and responsive control systems for immediate threat management"
-              icon={<ShieldAlert className="h-10 w-10 text-dome-purple" />}
+              icon={<ArrowRight className="h-10 w-10 text-dome-purple" />}
+              onClick={() => navigate("/dashboard")}
             />
           </div>
         </div>
@@ -95,9 +99,17 @@ export default function Index() {
   );
 }
 
-function FeatureCard({ title, description, icon }) {
+function FeatureCard({ title, description, icon, onClick }: { 
+  title: string; 
+  description: string; 
+  icon: React.ReactNode;
+  onClick?: () => void;
+}) {
   return (
-    <div className="bg-dome-dark p-6 rounded-lg border border-dome-purple/10 hover:border-dome-purple/30 transition-colors">
+    <div 
+      className="bg-dome-dark p-6 rounded-lg border border-dome-purple/10 hover:border-dome-purple/30 transition-colors cursor-pointer"
+      onClick={onClick}
+    >
       <div className="mb-4">
         {icon}
       </div>
@@ -106,3 +118,4 @@ function FeatureCard({ title, description, icon }) {
     </div>
   );
 }
+
