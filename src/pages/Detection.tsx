@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { Radar, Radio, Shield, AlertTriangle } from "lucide-react";
@@ -8,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
-import { navigate } from "react-router-dom";
 
 export default function Detection() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   
   const handleCalibrateSystem = (system: string) => {
     toast.success(`${system} calibration initiated`, {
