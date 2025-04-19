@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
@@ -8,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import { Upload } from "lucide-react";
+import { navigate } from "react-router-dom";
 
 export default function Detection() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -49,7 +50,16 @@ export default function Detection() {
         
         <main className="flex-1 p-4 md:p-6">
           <div className="grid gap-4 md:gap-6">
-            <h1 className="text-2xl font-bold text-white">Detection Systems</h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-2xl font-bold text-white">Detection Systems</h1>
+              <Button
+                className="bg-dome-purple hover:bg-dome-purple/90 text-white"
+                onClick={() => navigate("/media-detection")}
+              >
+                <Upload className="mr-2 h-4 w-4" />
+                Upload Media
+              </Button>
+            </div>
             
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Card className="bg-dome-darker border-dome-purple/10">

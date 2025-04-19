@@ -15,6 +15,7 @@ import Operators from "./pages/Operators";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import CameraDetection from "./pages/CameraDetection";
+import MediaDetection from "./pages/MediaDetection";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/operators" element={<Operators />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/media-detection" element={<MediaDetection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
