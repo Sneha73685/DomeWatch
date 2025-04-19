@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { 
@@ -12,7 +13,8 @@ import {
   Eye,
   Radio,
   FileText,
-  Webcam
+  Webcam,
+  Upload
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomeWatchBadge } from "./DomeWatchBadge";
@@ -107,6 +109,12 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
           label="Detection" 
           active={activePage === "detection"}
           onClick={() => navigate("/detection")}
+        />
+        <SidebarItem 
+          icon={<Upload className="h-5 w-5" />} 
+          label="Media Detection" 
+          active={activePage === "media-detection"}
+          onClick={() => navigate("/media-detection")}
         />
         <SidebarItem 
           icon={<Shield className="h-5 w-5" />} 
