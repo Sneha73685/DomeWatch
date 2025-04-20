@@ -19,7 +19,7 @@ export default function Landing() {
               DomeWatch
             </h1>
             <p className="text-xl md:text-2xl text-dome-purple-light max-w-3xl mb-10">
-              AI-Powered Anti-Drone Defense System for Securing Restricted Airspace
+              Securing the skies, one drone at a time
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 

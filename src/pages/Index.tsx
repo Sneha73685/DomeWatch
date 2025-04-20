@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Radio, Lock, ArrowRight } from "lucide-react";
@@ -39,7 +38,7 @@ export default function Index() {
           DomeWatch
         </h1>
         <p className="text-xl text-dome-purple-light text-center max-w-2xl mb-10">
-          Securing the sky, one drone at a time
+          Securing the skies, one drone at a time
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
           <Button 
@@ -118,4 +117,3 @@ function FeatureCard({ title, description, icon, onClick }: {
     </div>
   );
 }
-
