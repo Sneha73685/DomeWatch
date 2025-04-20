@@ -37,7 +37,7 @@ export default function Index() {
         <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-6">
           DomeWatch
         </h1>
-        <p className="text-xl text-dome-purple-light text-center max-w-2xl mb-10">
+        <p className="text-xl text-dome-purple-light text-center max-w-2xl mb-10 italic">
           Securing the skies, one drone at a time
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-16">

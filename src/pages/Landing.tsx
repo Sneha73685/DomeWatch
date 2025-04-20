@@ -9,7 +9,6 @@ export default function Landing() {
   
   return (
     <div className="min-h-screen bg-dome-dark">
-      {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-dome-purple/20 to-transparent" />
         <div className="container mx-auto px-4 py-20">
@@ -18,7 +17,7 @@ export default function Landing() {
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               DomeWatch
             </h1>
-            <p className="text-xl md:text-2xl text-dome-purple-light max-w-3xl mb-10">
+            <p className="text-xl md:text-2xl text-dome-purple-light max-w-3xl mb-10 italic">
               Securing the skies, one drone at a time
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -34,7 +33,6 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* Key Features Section */}
       <section className="py-20 bg-dome-darker">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-white text-center mb-16">
@@ -65,7 +63,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Statistics Section */}
       <section className="py-20 bg-dome-dark">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -76,7 +73,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 bg-dome-darker">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">
@@ -98,12 +94,10 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-dome-dark border-t border-dome-purple/10 py-8">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">
-              {/* <ShieldAlert className="h-6 w-6 text-dome-purple" /> */}
               <Logo size="sm" />
               <span className="text-white font-bold">DomeWatch</span>
             </div>
