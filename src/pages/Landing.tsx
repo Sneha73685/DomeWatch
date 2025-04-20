@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { Radio, Lock, Zap, Target, Bell, Activity, Users, ChevronRight } from "lucide-react";
+import { Radio, Lock, Shield, Target, Bell, Package } from "lucide-react";
 import { Logo } from "@/components/Logo";
 
 export default function Landing() {
@@ -18,8 +18,8 @@ export default function Landing() {
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
               DomeWatch
             </h1>
-            <p className="text-xl md:text-2xl text-dome-purple-light max-w-2xl mb-10">
-              Securing the sky, one drone at a time
+            <p className="text-xl md:text-2xl text-dome-purple-light max-w-3xl mb-10">
+              AI-Powered Anti-Drone Defense System for Securing Restricted Airspace
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
@@ -27,49 +27,39 @@ export default function Landing() {
                 className="bg-dome-purple hover:bg-dome-purple-dark text-white"
                 onClick={() => navigate("/login")}
               >
-                Access System <ChevronRight className="ml-2" />
+                Access System <Lock className="ml-2" />
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Features Grid */}
+      {/* Key Features Section */}
       <section className="py-20 bg-dome-darker">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-white text-center mb-16">
-            Comprehensive Defense Features
+            Key Defense Features
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<Radio />}
-              title="Advanced Detection"
-              description="Multi-sensor detection system using radar, RF analysis, and computer vision"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <FeatureCard 
+              icon={<Radio className="h-12 w-12 text-dome-purple" />}
+              title="Dual Detection"
+              description="Combined AI and RF technology for enhanced threat identification"
             />
-            <FeatureCard
-              icon={<Target />}
-              title="Precision Tracking"
-              description="Real-time drone tracking with advanced trajectory prediction"
+            <FeatureCard 
+              icon={<Bell className="h-12 w-12 text-dome-purple" />}
+              title="Real-time Alerts"
+              description="Instant notification system for immediate response"
             />
-            <FeatureCard
-              icon={<Zap />}
-              title="Rapid Response"
-              description="Automated countermeasure deployment with minimal latency"
+            <FeatureCard 
+              icon={<Package className="h-12 w-12 text-dome-purple" />}
+              title="Portable Setup"
+              description="Deploy anywhere with compact, mobile defense units"
             />
-            <FeatureCard
-              icon={<Bell />}
-              title="Alert System"
-              description="Instant notifications and threat classification"
-            />
-            <FeatureCard
-              icon={<Activity />}
-              title="Analytics Dashboard"
-              description="Comprehensive threat analysis and system performance metrics"
-            />
-            <FeatureCard
-              icon={<Users />}
-              title="Multi-User Access"
-              description="Role-based access control for operators and personnel"
+            <FeatureCard 
+              icon={<Target className="h-12 w-12 text-dome-purple" />}
+              title="Targeted Jamming"
+              description="Precision countermeasures for threat neutralization"
             />
           </div>
         </div>
@@ -101,7 +91,7 @@ export default function Landing() {
               className="bg-dome-purple hover:bg-dome-purple-dark text-white"
               onClick={() => navigate("/login")}
             >
-              <Lock className="mr-2" />
+              <Shield className="mr-2" />
               Access System
             </Button>
           </div>
@@ -127,12 +117,16 @@ export default function Landing() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+function FeatureCard({ icon, title, description }: { 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string;
+}) {
   return (
     <Card className="bg-dome-dark border-dome-purple/10 hover:border-dome-purple/30 transition-all">
-      <CardContent className="p-6">
-        <div className="h-12 w-12 rounded-lg bg-dome-purple/10 flex items-center justify-center mb-4">
-          <div className="text-dome-purple">{icon}</div>
+      <CardContent className="p-6 flex flex-col items-center text-center">
+        <div className="h-20 w-20 rounded-full bg-dome-purple/10 flex items-center justify-center mb-4">
+          {icon}
         </div>
         <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
         <p className="text-dome-purple-light">{description}</p>
