@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { 
@@ -14,7 +13,9 @@ import {
   Radio,
   FileText,
   Webcam,
-  Upload
+  Upload,
+  Image as ImageIcon,
+  Video as VideoIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomeWatchBadge } from "./DomeWatchBadge";
@@ -110,12 +111,21 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
           active={activePage === "detection"}
           onClick={() => navigate("/detection")}
         />
-        <SidebarItem 
-          icon={<Upload className="h-5 w-5" />} 
-          label="Media Detection" 
-          active={activePage === "media-detection"}
-          onClick={() => navigate("/media-detection")}
-        />
+        <div className="ml-3">
+          <div className="text-xs text-dome-purple-light mt-2 mb-1 select-none">Media Detection</div>
+          <SidebarItem 
+            icon={<ImageIcon className="h-5 w-5" />} 
+            label="Photo Detection" 
+            active={activePage === "photo-detection"}
+            onClick={() => navigate("/photo-detection")}
+          />
+          <SidebarItem 
+            icon={<VideoIcon className="h-5 w-5" />} 
+            label="Video Detection" 
+            active={activePage === "video-detection"}
+            onClick={() => navigate("/video-detection")}
+          />
+        </div>
         <SidebarItem 
           icon={<Shield className="h-5 w-5" />} 
           label="Countermeasures" 

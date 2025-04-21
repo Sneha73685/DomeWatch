@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, Loader } from "lucide-react";
+import { Image as ImageIcon, Loader } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export default function MediaDetection() {
+export default function PhotoDetection() {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const { toast } = useToast();
@@ -14,12 +14,12 @@ export default function MediaDetection() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Check file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/quicktime'];
+    // Only accept images
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!validTypes.includes(file.type)) {
       toast({
         title: "Invalid file type",
-        description: "Please upload an image (JPG, PNG, GIF) or video (MP4, MOV)",
+        description: "Please upload an image (JPG, PNG, GIF)",
         variant: "destructive",
       });
       return;
@@ -31,15 +31,15 @@ export default function MediaDetection() {
 
   const handleDetection = async (file: File) => {
     setIsLoading(true);
-    
+
     // Simulate detection process
     await new Promise(resolve => setTimeout(resolve, 3000));
-    
+
     toast({
-      title: "Detection Complete",
-      description: "Analysis of the uploaded media has been completed.",
+      title: "Photo Analysis Complete",
+      description: "Drone analysis for the uploaded photo is finished.",
     });
-    
+
     setIsLoading(false);
   };
 
@@ -48,42 +48,42 @@ export default function MediaDetection() {
       <Card className="bg-dome-darker border-dome-purple/10">
         <CardHeader>
           <CardTitle className="text-2xl text-white flex items-center gap-2">
-            <Upload className="h-6 w-6" />
-            Media Detection
+            <ImageIcon className="h-6 w-6" />
+            Photo Detection
           </CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <div className="flex flex-col items-center justify-center space-y-4 min-h-[300px]">
               <Loader className="h-12 w-12 text-dome-purple animate-spin" />
-              <p className="text-dome-purple-light">Analyzing uploaded media...</p>
+              <p className="text-dome-purple-light">Analyzing uploaded photo...</p>
             </div>
           ) : (
             <div className="space-y-6">
-              <div 
+              <div
                 className="border-2 border-dashed border-dome-purple/20 rounded-lg p-8 text-center hover:border-dome-purple/40 transition-colors"
-                onClick={() => document.getElementById('file-upload')?.click()}
+                onClick={() => document.getElementById('photo-upload')?.click()}
               >
                 <input
                   type="file"
-                  id="file-upload"
+                  id="photo-upload"
                   className="hidden"
-                  accept="image/*, video/*"
+                  accept="image/jpeg, image/png, image/gif"
                   onChange={handleFileUpload}
                 />
-                <Upload className="h-12 w-12 mx-auto mb-4 text-dome-purple-light" />
+                <ImageIcon className="h-12 w-12 mx-auto mb-4 text-dome-purple-light" />
                 <p className="text-dome-purple-light mb-2">
-                  Drag and drop or click to upload
+                  Drag and drop or click to upload a photo
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Supports images (JPG, PNG, GIF) and videos (MP4, MOV)
+                  Supports JPG, PNG, GIF image files
                 </p>
               </div>
-              
+
               {uploadedFile && (
                 <div className="p-4 bg-dome-purple/10 rounded-lg">
                   <p className="text-dome-purple-light">
-                    Selected file: {uploadedFile.name}
+                    Selected photo: {uploadedFile.name}
                   </p>
                 </div>
               )}

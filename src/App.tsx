@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,7 +16,8 @@ import Operators from "./pages/Operators";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import CameraDetection from "./pages/CameraDetection";
-import MediaDetection from "./pages/MediaDetection";
+import PhotoDetection from "./pages/PhotoDetection";
+import VideoDetection from "./pages/VideoDetection";
 
 const queryClient = new QueryClient();
 
@@ -32,12 +34,13 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/detection" element={<Detection />} />
             <Route path="/camera-detection" element={<CameraDetection />} />
+            <Route path="/photo-detection" element={<PhotoDetection />} />
+            <Route path="/video-detection" element={<VideoDetection />} />
             <Route path="/countermeasures" element={<Countermeasures />} />
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/operators" element={<Operators />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/media-detection" element={<MediaDetection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
