@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Image as ImageIcon, Loader } from "lucide-react";
+import { Image as ImageIcon, Loader, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function PhotoDetection() {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [processedUrl, setProcessedUrl] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +27,7 @@ export default function PhotoDetection() {
     }
 
     setUploadedFile(file);
+    setProcessedUrl(null);
     handleDetection(file);
   };
 
@@ -40,7 +42,18 @@ export default function PhotoDetection() {
       description: "Drone analysis for the uploaded photo is finished.",
     });
 
+    // For demonstration, after detection, create a downloadable URL of the uploaded image.
+    setProcessedUrl(URL.createObjectURL(file));
     setIsLoading(false);
+  };
+
+  const handleDownload = () => {
+    if (processedUrl && uploadedFile) {
+      const link = document.createElement("a");
+      link.href = processedUrl;
+      link.download = `detected-${uploadedFile.name}`;
+      link.click();
+    }
   };
 
   return (
@@ -81,10 +94,19 @@ export default function PhotoDetection() {
               </div>
 
               {uploadedFile && (
-                <div className="p-4 bg-dome-purple/10 rounded-lg">
-                  <p className="text-dome-purple-light">
+                <div className="p-4 bg-dome-purple/10 rounded-lg flex flex-col gap-2 items-center">
+                  <p className="text-dome-purple-light mb-2">
                     Selected photo: {uploadedFile.name}
                   </p>
+                  {processedUrl && (
+                    <Button
+                      className="flex items-center gap-2 bg-dome-green hover:bg-dome-green/80 text-white"
+                      onClick={handleDownload}
+                    >
+                      <Download className="h-4 w-4" />
+                      Download Analyzed Photo
+                    </Button>
+                  )}
                 </div>
               )}
             </div>

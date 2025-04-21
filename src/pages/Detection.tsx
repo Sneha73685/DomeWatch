@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Radar, Radio, Shield, AlertTriangle } from "lucide-react";
+import { Radar, Radio, Shield, AlertTriangle, Webcam, Image as ImageIcon, Video as VideoIcon } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,14 +56,14 @@ export default function Detection() {
               <h1 className="text-2xl font-bold text-white">Detection Systems</h1>
               <Button
                 className="bg-dome-purple hover:bg-dome-purple/90 text-white"
-                onClick={() => navigate("/media-detection")}
+                onClick={() => navigate("/photo-detection")}
               >
                 <Upload className="mr-2 h-4 w-4" />
-                Upload Media
+                Media Detection
               </Button>
             </div>
             
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Card className="bg-dome-darker border-dome-purple/10">
                 <CardHeader>
                   <div className="flex items-center gap-2">
@@ -164,6 +164,79 @@ export default function Detection() {
                       onClick={handleUpdateAI}
                     >
                       Update AI Model
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Webcam Detection Section */}
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <Webcam className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Webcam Detection</CardTitle>
+                  </div>
+                  <CardDescription>Use your webcam for real-time drone detection</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <p className="text-muted-foreground text-sm">
+                      Activate your device's webcam for live detection. All analysis happens directly in your browser.
+                    </p>
+                    <Button
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => navigate("/camera-detection")}
+                    >
+                      <Webcam className="mr-2 h-4 w-4" />
+                      Start Webcam Detection
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              {/* End Webcam Detection Section */}
+
+              {/* Photo Detection Shortcut */}
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <ImageIcon className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Photo Detection</CardTitle>
+                  </div>
+                  <CardDescription>Upload an image for drone detection</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <Button
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => navigate("/photo-detection")}
+                    >
+                      Upload Photo
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              {/* Video Detection Shortcut */}
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <VideoIcon className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Video Detection</CardTitle>
+                  </div>
+                  <CardDescription>Upload a video for drone detection</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <Button
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => navigate("/video-detection")}
+                    >
+                      Upload Video
                     </Button>
                   </div>
                 </CardContent>
