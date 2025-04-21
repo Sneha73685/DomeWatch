@@ -8,7 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 export default function PhotoDetection() {
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [processedUrl, setProcessedUrl] = useState<string | null>(null);
+  // resultUrl is always /result/image after detection (API contract given)
+  const [resultReady, setResultReady] = useState(false);
   const { toast } = useToast();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,33 +28,59 @@ export default function PhotoDetection() {
     }
 
     setUploadedFile(file);
-    setProcessedUrl(null);
+    setResultReady(false);
     handleDetection(file);
   };
 
   const handleDetection = async (file: File) => {
     setIsLoading(true);
 
-    // Simulate detection process
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Prepare FormData for API
+    const formData = new FormData();
+    formData.append("file", file);
 
-    toast({
-      title: "Photo Analysis Complete",
-      description: "Drone analysis for the uploaded photo is finished.",
-    });
+    try {
+      // Upload file to the fastapi backend
+      const response = await fetch("/predict/image", {
+        method: "POST",
+        body: formData,
+      });
 
-    // For demonstration, after detection, create a downloadable URL of the uploaded image.
-    setProcessedUrl(URL.createObjectURL(file));
-    setIsLoading(false);
+      if (response.ok) {
+        // Optionally check for "result_image_url" in response, but we assume /result/image
+        toast({
+          title: "Photo Analysis Complete",
+          description: "Drone analysis for the uploaded photo is finished.",
+        });
+        setResultReady(true);
+      } else {
+        toast({
+          title: "Upload failed",
+          description: "Could not analyze the photo. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (e) {
+      toast({
+        title: "Network error",
+        description: "Failed to upload photo for analysis.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDownload = () => {
-    if (processedUrl && uploadedFile) {
-      const link = document.createElement("a");
-      link.href = processedUrl;
-      link.download = `detected-${uploadedFile.name}`;
-      link.click();
-    }
+    // Download from the known result endpoint
+    const link = document.createElement("a");
+    link.href = "/result/image";
+    link.download = uploadedFile
+      ? `detected-${uploadedFile.name.replace(/\.(jpg|jpeg|png|gif)$/i, "")}.jpg`
+      : "detection-result.jpg";
+    document.body.appendChild(link); // Required for FF
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -98,7 +125,7 @@ export default function PhotoDetection() {
                   <p className="text-dome-purple-light mb-2">
                     Selected photo: {uploadedFile.name}
                   </p>
-                  {processedUrl && (
+                  {resultReady && (
                     <Button
                       className="flex items-center gap-2 bg-dome-green hover:bg-dome-green/80 text-white"
                       onClick={handleDownload}
