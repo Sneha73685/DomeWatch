@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { 
@@ -12,10 +13,7 @@ import {
   Eye,
   Radio,
   FileText,
-  Webcam,
-  Upload,
-  Image as ImageIcon,
-  Video as VideoIcon
+  // Remove import of specific media detection icons
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomeWatchBadge } from "./DomeWatchBadge";
@@ -99,33 +97,14 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
           active={activePage === "dashboard"}
           onClick={() => navigate("/dashboard")}
         />
-        <SidebarItem 
-          icon={<Webcam className="h-5 w-5" />} 
-          label="Camera Detection" 
-          active={activePage === "camera-detection"}
-          onClick={() => navigate("/camera-detection")}
-        />
+        
         <SidebarItem 
           icon={<Radar className="h-5 w-5" />} 
           label="Detection" 
           active={activePage === "detection"}
           onClick={() => navigate("/detection")}
         />
-        <div className="ml-3">
-          <div className="text-xs text-dome-purple-light mt-2 mb-1 select-none">Media Detection</div>
-          <SidebarItem 
-            icon={<ImageIcon className="h-5 w-5" />} 
-            label="Photo Detection" 
-            active={activePage === "photo-detection"}
-            onClick={() => navigate("/photo-detection")}
-          />
-          <SidebarItem 
-            icon={<VideoIcon className="h-5 w-5" />} 
-            label="Video Detection" 
-            active={activePage === "video-detection"}
-            onClick={() => navigate("/video-detection")}
-          />
-        </div>
+        
         <SidebarItem 
           icon={<Shield className="h-5 w-5" />} 
           label="Countermeasures" 
@@ -134,12 +113,14 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
           onClick={() => navigate("/countermeasures")}
           disabled={isPersonnel}
         />
+        
         <SidebarItem 
           icon={<AlertTriangle className="h-5 w-5" />} 
           label="Alerts" 
           active={activePage === "alerts"}
           onClick={() => navigate("/alerts")}
         />
+        
         <SidebarItem 
           icon={<Database className="h-5 w-5" />} 
           label="Analytics" 
@@ -194,3 +175,4 @@ export function Sidebar({ className, activePage = "dashboard", userRole = "opera
     </aside>
   );
 }
+
