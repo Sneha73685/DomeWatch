@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/dashboard/Header";
@@ -9,11 +8,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { Upload } from "lucide-react";
 
 export default function Detection() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
   
   const handleCalibrateSystem = (system: string) => {
     toast.success(`${system} calibration initiated`, {
@@ -32,15 +29,18 @@ export default function Detection() {
       description: "Downloading and installing latest threat detection models"
     });
   };
+
+  const handleDetectionStart = (type: string) => {
+    const endpoint = `http://localhost:8000/detect/${type}`;
+    window.open(endpoint, '_blank');
+  };
   
   return (
     <div className="flex min-h-screen bg-dome-dark">
-      {/* Sidebar for larger screens */}
       <div className="hidden lg:block">
         <Sidebar activePage="detection" />
       </div>
       
-      {/* Mobile sidebar */}
       <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
         <SheetContent side="left" className="p-0 w-64 border-dome-purple/10 bg-dome-darker">
           <Sidebar activePage="detection" />
@@ -52,18 +52,96 @@ export default function Detection() {
         
         <main className="flex-1 p-4 md:p-6">
           <div className="grid gap-4 md:gap-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-white">Detection Systems</h1>
-              <Button
-                className="bg-dome-purple hover:bg-dome-purple/90 text-white"
-                onClick={() => navigate("/photo-detection")}
-              >
-                <Upload className="mr-2 h-4 w-4" />
-                Media Detection
-              </Button>
-            </div>
+            <h1 className="text-2xl font-bold text-white">Detection Systems</h1>
             
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <Webcam className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Camera Detection</CardTitle>
+                  </div>
+                  <CardDescription>Real-time webcam detection</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">System Status</span>
+                        <span className="text-dome-green">Ready</span>
+                      </div>
+                      <Progress value={100} className="h-2 bg-dome-purple/10" />
+                    </div>
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => handleDetectionStart('camera')}
+                    >
+                      Start Camera Detection
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <ImageIcon className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Photo Detection</CardTitle>
+                  </div>
+                  <CardDescription>Analyze static images</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">System Status</span>
+                        <span className="text-dome-green">Ready</span>
+                      </div>
+                      <Progress value={100} className="h-2 bg-dome-purple/10" />
+                    </div>
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => handleDetectionStart('photo')}
+                    >
+                      Start Photo Detection
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-dome-darker border-dome-purple/10">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-dome-purple/10">
+                      <VideoIcon className="h-5 w-5 text-dome-purple-light" />
+                    </div>
+                    <CardTitle className="text-white">Video Detection</CardTitle>
+                  </div>
+                  <CardDescription>Process video footage</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">System Status</span>
+                        <span className="text-dome-green">Ready</span>
+                      </div>
+                      <Progress value={100} className="h-2 bg-dome-purple/10" />
+                    </div>
+                    <Button 
+                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
+                      onClick={() => handleDetectionStart('video')}
+                    >
+                      Start Video Detection
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              
               <Card className="bg-dome-darker border-dome-purple/10">
                 <CardHeader>
                   <div className="flex items-center gap-2">
@@ -164,79 +242,6 @@ export default function Detection() {
                       onClick={handleUpdateAI}
                     >
                       Update AI Model
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Webcam Detection Section */}
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <Webcam className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">Webcam Detection</CardTitle>
-                  </div>
-                  <CardDescription>Use your webcam for real-time drone detection</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <p className="text-muted-foreground text-sm">
-                      Activate your device's webcam for live detection. All analysis happens directly in your browser.
-                    </p>
-                    <Button
-                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
-                      onClick={() => navigate("/camera-detection")}
-                    >
-                      <Webcam className="mr-2 h-4 w-4" />
-                      Start Webcam Detection
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-              {/* End Webcam Detection Section */}
-
-              {/* Photo Detection Shortcut */}
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <ImageIcon className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">Photo Detection</CardTitle>
-                  </div>
-                  <CardDescription>Upload an image for drone detection</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <Button
-                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
-                      onClick={() => navigate("/photo-detection")}
-                    >
-                      Upload Photo
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-              {/* Video Detection Shortcut */}
-              <Card className="bg-dome-darker border-dome-purple/10">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-dome-purple/10">
-                      <VideoIcon className="h-5 w-5 text-dome-purple-light" />
-                    </div>
-                    <CardTitle className="text-white">Video Detection</CardTitle>
-                  </div>
-                  <CardDescription>Upload a video for drone detection</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <Button
-                      className="w-full bg-dome-purple hover:bg-dome-purple/90 text-white"
-                      onClick={() => navigate("/video-detection")}
-                    >
-                      Upload Video
                     </Button>
                   </div>
                 </CardContent>
