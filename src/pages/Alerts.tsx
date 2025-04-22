@@ -1,14 +1,22 @@
-
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import emailjs from '@emailjs/browser';
 import { Header } from "@/components/dashboard/Header";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { AlertTriangle, Clock, Shield, MapPin, Info } from "lucide-react";
+import { AlertTriangle, Clock, Shield, MapPin, Info, Mail } from "lucide-react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Alerts() {
+  const { t } = useTranslation();
+  const { toast } = useToast();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [emailEnabled, setEmailEnabled] = useState(false);
+  const [emailAddress, setEmailAddress] = useState("");
   
   const alerts = [
     {
@@ -58,14 +66,48 @@ export default function Alerts() {
     }
   ];
   
+  const sendEmailAlert = async (alert: any) => {
+    try {
+      const response = await emailjs.send(
+        'YOUR_SERVICE_ID',
+        'YOUR_TEMPLATE_ID',
+        {
+          to_email: emailAddress,
+          alert_title: alert.title,
+          alert_description: alert.description,
+          alert_location: alert.location,
+          alert_time: alert.time
+        },
+        'YOUR_PUBLIC_KEY'
+      );
+      
+      if (response.status === 200) {
+        toast({
+          title: "Email Alert Sent",
+          description: "Alert notification has been sent to your email.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to Send Email",
+        description: "Could not send email notification. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleAlertAction = async (alert: any, action: 'resolve' | 'respond' | 'details') => {
+    if (emailEnabled && (action === 'resolve' || action === 'respond')) {
+      await sendEmailAlert(alert);
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-dome-dark">
-      {/* Sidebar for larger screens */}
       <div className="hidden lg:block">
         <Sidebar activePage="alerts" />
       </div>
       
-      {/* Mobile sidebar */}
       <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
         <SheetContent side="left" className="p-0 w-64 border-dome-purple/10 bg-dome-darker">
           <Sidebar activePage="alerts" />
@@ -78,10 +120,43 @@ export default function Alerts() {
         <main className="flex-1 p-4 md:p-6">
           <div className="grid gap-4 md:gap-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-white">Alerts & Notifications</h1>
+              <h1 className="text-2xl font-bold text-white">{t('alerts.title')}</h1>
               <Badge variant="outline" className="bg-dome-purple/10 text-dome-purple-light border-dome-purple/30">
-                {alerts.filter(a => a.status === "active" || a.status === "investigating").length} Active
+                {alerts.filter(a => a.status === "active" || a.status === "investigating").length} {t('alerts.active')}
               </Badge>
+            </div>
+
+            <div className="bg-dome-darker border border-dome-purple/30 rounded-lg p-4">
+              <h2 className="text-lg font-semibold text-white mb-4">{t('alerts.email.settings')}</h2>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm text-muted-foreground">{t('alerts.email.enable')}</label>
+                  <Switch checked={emailEnabled} onCheckedChange={setEmailEnabled} />
+                </div>
+                {emailEnabled && (
+                  <div className="space-y-2">
+                    <Input
+                      type="email"
+                      placeholder={t('alerts.email.address')}
+                      value={emailAddress}
+                      onChange={(e) => setEmailAddress(e.target.value)}
+                      className="bg-dome-dark border-dome-purple/30"
+                    />
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-dome-purple/30 text-dome-purple-light hover:bg-dome-purple/10"
+                      onClick={() => {
+                        toast({
+                          title: "Settings Saved",
+                          description: "Email notification settings have been updated.",
+                        });
+                      }}
+                    >
+                      {t('alerts.email.save')}
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="space-y-4">
@@ -148,8 +223,9 @@ export default function Alerts() {
                           size="sm" 
                           variant="outline"
                           className="border-dome-purple/30 text-dome-purple-light hover:bg-dome-purple/10"
+                          onClick={() => handleAlertAction(alert, 'resolve')}
                         >
-                          Resolve
+                          {t('alerts.actions.resolve')}
                         </Button>
                       )}
                       <Button 
@@ -160,8 +236,9 @@ export default function Alerts() {
                             ? "bg-dome-red hover:bg-dome-red/90 text-white" 
                             : "border-dome-purple/30 text-dome-purple-light hover:bg-dome-purple/10"
                         }
+                        onClick={() => handleAlertAction(alert, alert.severity === "critical" ? 'respond' : 'details')}
                       >
-                        {alert.severity === "critical" ? "Respond" : "Details"}
+                        {t(alert.severity === "critical" ? 'alerts.actions.respond' : 'alerts.actions.details')}
                       </Button>
                     </div>
                   </div>
@@ -171,15 +248,15 @@ export default function Alerts() {
             
             <div className="flex justify-between mt-4">
               <Button variant="outline" className="border-dome-purple/30 text-dome-purple-light hover:bg-dome-purple/10">
-                View Resolved Alerts
+                {t('alerts.resolved')}
               </Button>
               <Button variant="outline" className="border-dome-purple/30 text-dome-purple-light hover:bg-dome-purple/10">
-                Export Alert Log
+                {t('alerts.export')}
               </Button>
             </div>
             
             <div className="text-center text-xs text-muted-foreground mt-4">
-              <p>DomeWatch v2.4.0 • All alerts are logged and monitored</p>
+              <p>{t('alerts.footer')}</p>
             </div>
           </div>
         </main>

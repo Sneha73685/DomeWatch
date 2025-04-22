@@ -1,0 +1,57 @@
+
+export const alertTranslations = {
+  en: {
+    'alerts.title': 'Alerts & Notifications',
+    'alerts.active': 'Active',
+    'alerts.email.settings': 'Email Notification Settings',
+    'alerts.email.enable': 'Enable Email Notifications',
+    'alerts.email.address': 'Email Address',
+    'alerts.email.save': 'Save Settings',
+    'alerts.resolved': 'View Resolved Alerts',
+    'alerts.export': 'Export Alert Log',
+    'alerts.footer': 'DomeWatch v2.4.0 • All alerts are logged and monitored',
+    'alerts.status.active': 'Active',
+    'alerts.status.investigating': 'Investigating',
+    'alerts.status.pending': 'Pending',
+    'alerts.status.resolved': 'Resolved',
+    'alerts.actions.resolve': 'Resolve',
+    'alerts.actions.respond': 'Respond',
+    'alerts.actions.details': 'Details'
+  },
+  hi: {
+    'alerts.title': 'अलर्ट और सूचनाएं',
+    'alerts.active': 'सक्रिय',
+    'alerts.email.settings': 'ईमेल अधिसूचना सेटिंग्स',
+    'alerts.email.enable': 'ईमेल सूचनाएं सक्षम करें',
+    'alerts.email.address': 'ईमेल पता',
+    'alerts.email.save': 'सेटिंग्स सहेजें',
+    'alerts.resolved': 'समाधान किए गए अलर्ट देखें',
+    'alerts.export': 'अलर्ट लॉग निर्यात करें',
+    'alerts.footer': 'डोमवॉच v2.4.0 • सभी अलर्ट लॉग और मॉनिटर किए जाते हैं',
+    'alerts.status.active': 'सक्रिय',
+    'alerts.status.investigating': 'जांच जारी',
+    'alerts.status.pending': 'लंबित',
+    'alerts.status.resolved': 'समाधान',
+    'alerts.actions.resolve': 'समाधान',
+    'alerts.actions.respond': 'प्रतिक्रिया',
+    'alerts.actions.details': 'विवरण'
+  },
+  mr: {
+    'alerts.title': 'सूचना आणि अलर्ट',
+    'alerts.active': 'सक्रिय',
+    'alerts.email.settings': 'ईमेल सूचना सेटिंग्ज',
+    'alerts.email.enable': 'ईमेल सूचना सक्षम करा',
+    'alerts.email.address': 'ईमेल पत्ता',
+    'alerts.email.save': 'सेटिंग्ज जतन करा',
+    'alerts.resolved': 'सोडवलेले अलर्ट पहा',
+    'alerts.export': 'अलर्ट लॉग निर्यात करा',
+    'alerts.footer': 'डोमवॉच v2.4.0 • सर्व अलर्ट लॉग आणि मॉनिटर केले जातात',
+    'alerts.status.active': 'सक्रिय',
+    'alerts.status.investigating': 'तपास सुरू',
+    'alerts.status.pending': 'प्रलंबित',
+    'alerts.status.resolved': 'सोडवले',
+    'alerts.actions.resolve': 'सोडवा',
+    'alerts.actions.respond': 'प्रतिसाद',
+    'alerts.actions.details': 'तपशील'
+  }
+};

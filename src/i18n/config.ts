@@ -1,10 +1,12 @@
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { alertTranslations } from './locales/alerts';
 
 const resources = {
   en: {
     translation: {
+      ...alertTranslations.en,
       'app.title': 'DomeWatch',
       'app.subtitle': 'Securing the skies, one drone at a time',
       'theme.light': 'Light',
@@ -16,6 +18,7 @@ const resources = {
   },
   hi: {
     translation: {
+      ...alertTranslations.hi,
       'app.title': 'डोमवॉच',
       'app.subtitle': 'आकाश को सुरक्षित करना, एक ड्रोन एक बार में',
       'theme.light': 'लाइट',
@@ -27,6 +30,7 @@ const resources = {
   },
   mr: {
     translation: {
+      ...alertTranslations.mr,
       'app.title': 'डोमवॉच',
       'app.subtitle': 'आकाश सुरक्षित करणे, एक ड्रोन एका वेळी',
       'theme.light': 'लाईट',
